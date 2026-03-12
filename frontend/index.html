@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<title>OrbitLab</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>OrbitLab</h1>
+<p>Space Mission Trajectory Simulator</p>    
+</header>    
+
+<section class="controls">
+
+<label> Launch Velocity</label>
+<input type="range" id="velocity" min="0" max="50000" value="10000">
+
+<button id="launchBtn">Launch Spacecraft</button>
+</section>
+
+<section class="simulator">
+
+<canvas id="spaceCanvas" width="900" height="600"></canvas>    
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>
