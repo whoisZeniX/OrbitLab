@@ -1,29 +1,32 @@
-const canvas = document.getElementById("spaceCanvas")
+const canvas = document.getElementById("spaceCanvas");
 const ctx = canvas.getContext("2d");
 
-function drawBackground(){
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
 
-ctx.fillStyle = "black";
-ctx.fillRect(0,0,canvas.clientWidth,canvas.height);    
+function drawBackground(){
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 
 function drawSun(){
-
-const sunX = canvas.width/2;
-const sunY = canvas.height/2;
-
-ctx.beginPath();
-ctx.arc(sunX,sunY,25,0,Math.PI*2);
-ctx.fillStyle = "yellow";
-ctx.fill();
-
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 25, 0, Math.PI*2);
+    ctx.fillStyle = "yellow";
+    ctx.fill();
 }
 
-function renderScene(){
+function simulationLoop(){
 
-drawBackground();
-drawSun();
+    drawBackground();
+    drawSun();
 
+    if(typeof updatePlanets === "function"){
+        updatePlanets();
+        drawPlanets(ctx, centerX, centerY);
+    }
+
+    requestAnimationFrame(simulationLoop);
 }
 
-renderScene();
+simulationLoop();

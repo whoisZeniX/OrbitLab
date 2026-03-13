@@ -1,32 +1,14 @@
 body{
 
-background:#0b0f1a;
+background:#0b0f10;
 color:white;
-font-family:Arial, Helvetica, sans-serif;
 text-align:center;
-margin:0;    
-}
-
-header{
-
-    padding:20px;
-}
-
-.controls{
-
-    padding:15px;
-    background:#141a2e;
-}
-
-.simulater{
-
-    display:flex;
-    justify-content:center;
-    padding:20px;
+font-family:Arial;    
 }
 
 canvas{
 
-    background:black;
-    border:2px solid white; 
+background:black;
+border:2px solid white;
+margin-top:20px;    
 }
