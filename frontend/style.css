@@ -1,6 +1,6 @@
 body{
 
-background:#0b0f10;
+background:#0b0f1a;
 color:white;
 text-align:center;
 font-family:Arial;    
@@ -10,5 +10,20 @@ canvas{
 
 background:black;
 border:2px solid white;
-margin-top:20px;    
+margin-top:20px;
+
+}
+
+input{
+
+margin:10px;
+
+}
+
+button{
+
+padding:8px 15px;
+margin-left:10px;
+cursor:pointer;
+    
 }

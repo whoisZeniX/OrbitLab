@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>OrbitLab</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">    
 </head>
 
 <body>
@@ -12,11 +12,22 @@
 <h1>OrbitLab</h1>
 <p>Space Mission Trajectory Simulator</p>
 
+<div>
+
+<label>Velocity</label>
+<input type="range" id="velocity" min="1" max="10" value="5">
+
+<label>Angle</label>
+<input type="range" id="angle" min="0" max="360" value="45">
+
+<button id="launchBtn">Launch Spacecraft</button>
+</div>
+
 <canvas id="spaceCanvas" width="900" height="600"></canvas>
 
 <script src="./simulation/planets.js"></script>
+<script src="./simulation/spacecraft.js"></script>
 <script src="./main.js"></script>
 
 </body>
-
 </html>
