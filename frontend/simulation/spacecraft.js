@@ -7,7 +7,8 @@ let spacecraft = {
     path:[]
 }
 
-const g = 0.05
+const G_SUN = 0.05
+const G_PLANET = 0.02
 
 function launchSpacecraft(startX,startY,velocity,angle){
 
@@ -20,51 +21,56 @@ function launchSpacecraft(startX,startY,velocity,angle){
     spacecraft.vy = velocity * Math.sin(rad)
 
     spacecraft.active = true
-
     spacecraft.path = []
 }
 
-function applyGravity(centerX,centerY){
+function applyGravityFromBody(bodyX, bodyY, strength){
 
-    const dx = centerX - spacecraft.x
-    const dy = centerY - spacecraft.y
+    const dx = bodyX - spacecraft.x
+    const dy = bodyY - spacecraft.y
 
     const distance = Math.sqrt(dx*dx + dy*dy)
 
-    const force = G / (distance * distance)
+    if(distance < 5) return 
 
-    const ax = force * dx
-    const ay = force * dy 
+    const force = strength / (distance * distance)
 
-    spacecraft.vx += ax
-    spacecraft.vy += ay
+    spacecraft.vx += force * dx
+    spacecraft.vy += force * dy
 }
 
 function updateSpacecraft(centerX,centerY){
 
-    if(!spacecraft.active) return 
+    if(!spacecraft.active) return
 
-    applyGravity(centerX,centerY)
+    applyGravityFromBody(centerX, centerY, G_SUN)
+
+    planets.forEach(planet=>{
+
+        const px = centerX + planet.orbitRadius*Math.cos(planet.angle)
+        const py = centerY + planet.orbitRadius*Math.sin(planet.angle)
+
+        applyGravityFromBody(px, py, G_PLANET)
+    })
 
     spacecraft.x += spacecraft.vx
     spacecraft.y += spacecraft.vy
 
-     spacecraft.path.push({
+    spacecraft.path.push({
         x: spacecraft.x,
         y: spacecraft.y
-     })
+    })
 
-     if(spacecraft.path.length >600){
+    if(spacecraft.path.length > 700){
         spacecraft.path.shift()
-     }
+    }
 }
 
-function drawTrajectory(ctx) {
+function drawTrajectory(ctx){
 
     if(spacecraft.path.length < 2) return
 
     ctx.beginPath()
-
     ctx.moveTo(spacecraft.path[0].x, spacecraft.path[0].y)
 
     for(let i=1; i<spacecraft.path.length; i++){
@@ -84,6 +90,6 @@ function drawSpacecraft(ctx){
 
     ctx.beginPath()
     ctx.arc(spacecraft.x, spacecraft.y, 4, 0, Math.PI*2)
-    ctx.fillStyle = "wjite"
+    ctx.fillStyle = "white"
     ctx.fill()
 }
