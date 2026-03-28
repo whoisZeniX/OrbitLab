@@ -40,4 +40,4 @@ function drawPlanets(ctx, centerX, centerY){
 
     });
 
-}
+} 

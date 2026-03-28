@@ -1,29 +1,26 @@
-body{
-
-background:#0b0f1a;
-color:white;
-text-align:center;
-font-family:Arial;    
+body {
+    background:#0b0f1a;
+    color:white;
+    text-align:center;
+    font-family:Arial;
 }
 
-canvas{
+canvas {
+    background:black;
+    border:2px solid white;
+    margin-top:20px;
+}
 
-background:black;
-border:2px solid white;
-margin-top:20px;
-
+#stats{
+    margin-top:10px;
+    font-size:16px;
 }
 
 input{
-
-margin:10px;
-
+    margin:10px;
 }
 
 button{
-
-padding:8px 15px;
-margin-left:10px;
-cursor:pointer;
-    
+    padding:8px 15px;
+    cursor:pointer;
 }
