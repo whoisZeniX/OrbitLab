@@ -1,38 +1,20 @@
 <!DOCTYPE html>
+<html>
 <head>
-
-<head>
-<meta charset="UTF-8">
-<title>OrbitLab</title>
 <link rel="stylesheet" href="style.css">    
 </head>    
-
 <body>
-
-<h1>OrbitLab</h1>
-<p>Space Mission trajectory Simulator</p>    
-
-<div>
-
-<label>Velocity</label>
-<input type="range" id="velocity" min="1" max="10" value="5">
-
-<label>Angle</label>
-<input type="range" id="angle" min="0" max="360" value="45">
-
-<button id="launchBtn">Launch Spacecraft</button>
-</div>
-
-<div id="stats">
-<p>Velocity: <span id="statVelocity">0</span></p>
-<p>Distance: <span id="statDistance">0</span></p>
-<p>Time: <span id="statTime">0</span></p>    
-</div>
-
-<canvas id="spaceCanvas" width="900" height="600"></canvas>
-
-<script src="./simulation/planets.js"></script>
-<script src="./simulation/spacecraft.js"></script>
-<script src="./main.js"></script>
+<div id="ui">
+    <h2>OrbitLab Setup</h2>
+    <label>Angle: <input type="range" id="ang" min="0" max="360" value="0"></label><br><br>
+    <label>Speed: <input type="range" id="spd" min="0" max="200" value="50"></label><br><br>
+    <button id="btn">Launch</button>
+    <div id="stats"></div>
+</div>    
+<div id="msg"></div>
+<canvas id="c"></canvas>
+<script src="simulation/planets.js"></script>
+<script src="simulation/spacecraft.js"></script>
+<script src="main.js"></script>  
 </body>
-</head>
+</html>

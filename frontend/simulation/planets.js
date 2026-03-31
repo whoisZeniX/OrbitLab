@@ -1,43 +1,26 @@
-const planets = [
+class Planet {
+    constructor(radius, distance, speed, color, angle, mass){
+        this.r = radius;
+        this.d = distance;
+        this.s = speed;
+        this.c = color;
+        this.a = angle;
+        this.m = mass;
+        this.x = 0;
+        this.y = 0;
+    }
 
-{
-name:"Earth",
-orbitRadius:200,
-angle:0,
-speed:0.01,
-radius:8,
-color:"blue"
-},
+    update(dt) {
+        this.a += this.s * dt;
+        this.x = Math.cos(this.a) * this.d;
+        this.y = Math.sin(this.a) * this.d;
+    }
 
-{
-name:"Mars",
-orbitRadius:300,
-angle:0,
-speed:0.008,
-radius:7,
-color:"red"
-}
-
-];
-
-function updatePlanets(){
-    planets.forEach(planet=>{
-        planet.angle += planet.speed;
-    });
-}
-
-function drawPlanets(ctx, centerX, centerY){
-
-    planets.forEach(planet=>{
-
-        const x = centerX + planet.orbitRadius * Math.cos(planet.angle);
-        const y = centerY + planet.orbitRadius * Math.sin(planet.angle);
-
+    draw(ctx, cx, cy) {
         ctx.beginPath();
-        ctx.arc(x,y,planet.radius,0,Math.PI*2);
-        ctx.fillStyle = planet.color;
+        ctx.arc(cx + this.x, cy + this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = this.c;
         ctx.fill();
-
-    });
-
-} 
+        ctx.closePath();
+    }
+}

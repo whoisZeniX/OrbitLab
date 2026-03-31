@@ -1,26 +1,34 @@
-body {
-    background:#0b0f1a;
-    color:white;
-    text-align:center;
-    font-family:Arial;
+body, html {
+    margin:0; 
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: sans-serif;
 }
 
 canvas {
-    background:black;
-    border:2px solid white;
-    margin-top:20px;
+    display: block;
 }
 
-#stats{
-    margin-top:10px;
-    font-size:16px;
+#ui {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    background: rgba(0,0,0,0.8);
+    padding: 20px;
+    border-radius: 8px;
 }
 
-input{
-    margin:10px;
+#msg {
+    position: absolute;;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    pointer-events: none;
 }
 
-button{
-    padding:8px 15px;
-    cursor:pointer;
+#stats {
+    margin-top: 15px;
+    font-family: monospace;
 }
