@@ -12,19 +12,34 @@ window.addEventListener('resize', () => {
     cvs.width = window.innerWidth; cvs.height = window.innerHeight;
 });
 
-const earth = new Planet(10,200,0.5,'blue',0,100);
+const earth  = new Planet(10,200,0.5,'blue',0,100);
 const mars = new Planet(8,300,0.3,'red',1,50);
 const jupiter = new Planet(20,500,0.1,'orange',3,400);
 const moon = new Planet(4, 30, 2.5, '#ccc', 0, 10, earth);
 
 const sat1 = new Planet(2, 20, 3.0, '#aaa', 0, 1, earth);
-const sat2 = new Planet(2, 24, 2.2, '#aaa', 2.1, 1, earth);
-const sat3 = new Planet(2, 28, 1.8, '#aaa', 2.1, 1, earth);
+const sat2 = new Planet(2, 24, 2.2, '#aaa',2.1, 1, earth);
+const sat3 = new Planet(2, 28, 1.8, '#aaa', 4.2, 1, earth);
 
 const planets = [earth, mars, jupiter];
 const moons = [moon];
 const satellites = [sat1, sat2, sat3];
 const sun = {x:0, y:0, m:1000, r:30, c:'yellow'};
+
+var debrisList = [];
+for (var i = 0; i < 120; i++) {
+    var angle = Math.random() * Math.PI * 2;
+    var dist = 370 + Math.random() * 80;
+    var orbitalSpeed = Math.sqrt(1000 * sun.m / dist);
+    var d = new Debris(
+        Math.cos(angle) * dist,
+        Math.sin(angle) * dist,
+        -Math.sin(angle) * orbitalSpeed,
+        Math.cos(angle) * orbitalSpeed
+    );
+    debrisList.push(d);
+}
+
 let sc = null;
 
 launchBtn.onclick = () => {
@@ -50,18 +65,21 @@ function loop(t) {
     for(let s of satellites) {
         s.update(dt);
     }
+    for(var j = 0; j < debrisList.length; j++)  {
+        debrisList[j].update(dt, sun.m);
+    }
 
     if(sc) {
         let bodies = [sun];
-        for(let p of planets ) bodies.push(p);
+        for(let p of planets) bodies.push(p);
         for(let m of moons) bodies.push(m);
         for(let s of satellites) bodies.push(s);
         sc.update(dt, bodies, msg);
-        stats.innerHTML = 'Time: ${sc.tm.toFixed(1)}s<br>Dist: ${sc.dist.toFixed(0)}<br>Vel: ${(Math.sqrt(sc.vx*sc.vx+sc.vy*sc.vy)).toFixed(1)}';  
+        stats.innerHTML = `Time: ${sc.tm.toFixed(1)}s<br>Dist: ${sc.dist.toFixed(0)}<br>Vel: ${(Math.sqrt(sc.vx*sc.vx+sc.vy*sc.vy)).toFixed(1)}`;
     }
 
-    ctx.beginPath(); ctx.arc(cx, cy, 0, 7); ctx.fillStyle='yellow'; ctx.fill();
-
+    ctx.beginPath(); ctx.arc(cx, cy, 30, 0, 7); ctx.fillStyle='yellow'; ctx.fill();
+    
     for(let p of planets) {
         p.draw(ctx, cx, cy);
     }
@@ -70,6 +88,9 @@ function loop(t) {
     }
     for(let s of satellites) {
         s.draw(ctx, cx, cy);
+    }
+    for(var j = 0; j < debrisList.length; j++) {
+        debrisList[j].draw(ctx, cx, cy);
     }
 
     if(sc) sc.draw(ctx, cx, cy);
