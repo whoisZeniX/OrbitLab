@@ -1,5 +1,5 @@
 class Planet {
-    constructor(radius, distance, speed, color, angle, mass){
+    constructor(radius, distance, speed, color, angle, mass, parent) {
         this.r = radius;
         this.d = distance;
         this.s = speed;
@@ -8,12 +8,19 @@ class Planet {
         this.m = mass;
         this.x = 0;
         this.y = 0;
+        this.parent = parent || null;
     }
 
     update(dt) {
         this.a += this.s * dt;
-        this.x = Math.cos(this.a) * this.d;
-        this.y = Math.sin(this.a) * this.d;
+        var baseX = 0;
+        var baseY = 0;
+        if ( this.parent) {
+            baseX = this.parent.x;
+            baseY = this.parent.y;
+        }
+        this.x = baseX + Math.cos(this.a) * this.d;
+        this.y = baseY + Math.sin(this.a) * this.d;
     }
 
     draw(ctx, cx, cy) {
