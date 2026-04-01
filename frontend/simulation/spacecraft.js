@@ -8,14 +8,26 @@ class Spacecraft {
         this.path = [];
         this.pathTimer = 0;
         this.active = true;
-        this.success = false;
+        this.success = falsse;
         this.hitTarget = "";
 
         this.tm = 0;
         this.dist = 0;
+        this.fuel = 100;
+        this.thrusting = false;
     }
 
-    checkCollision(body) {
+    applyThrust(dirX, dirY, dt) {
+        if (this.fuel <= 0 || !this.active) return;
+        var thrustPower = 40;
+        this.vx += dirX * thrustPower * dt;
+        this.vy += dirY * thrustPower * dt;
+        this.fuel -= 12 * dt;
+        if (this.fuel < 0) this.fuel = 0;
+        this.thrusting = true;
+    }
+
+    checkCllision(body) {
         var dx = body.x - this.x;
         var dy = body.y - this.y;
         var distSq = dx * dx + dy * dy;
@@ -26,14 +38,15 @@ class Spacecraft {
         return false;
     }
 
-    update(dt, bodies, debrisList, targetName, msgElement) {
+    update(dt, bodies, debridList, targetName, msgElement) {
         if (!this.active) return;
+        this.thrusting = false;
 
         this.tm += dt;
         var oldX = this.x;
         var oldY = this.y;
 
-        for (var i = 0; i < bodies.lengh; i++) {
+        for (var i = 0; i < bodies.length; i++) {
             var body = bodies[i];
             var dx = body.x - this.x;
             var dy = body.y - this.y;
@@ -46,9 +59,9 @@ class Spacecraft {
                 if (bodyName === targetName) {
                     this.success = true;
                     this.hitTarget = bodyName;
-                    if (msgElment) {
-                        msgElement.innerText = "Reached " + bodyname + "!";
-                        msgElement.style.color = "lime";
+                    if (msgElement) {
+                      msgElement.innerText = "Reached " + bodyName + "!";
+                      msgElement.style.color = "lime";    
                     }
                 } else {
                     this.hitTarget = bodyName;
@@ -58,7 +71,7 @@ class Spacecraft {
                     }
                 }
                 return;
-            }
+            }  
 
             if (distSq > 1) {
                 var force = (1000 * body.m) / distSq;
@@ -73,7 +86,7 @@ class Spacecraft {
             var ddx = debris.x - this.x;
             var ddy = debris.y - this.y;
             var dDistSq = ddx * ddx + ddy * ddy;
-            if (dDist < 25) {
+            if (dDistSq < 25) {
                 this.active = false;
                 this.hitTarget = "asteroid";
                 if (msgElement) {
@@ -102,26 +115,33 @@ class Spacecraft {
     }
 
     draw(ctx, cx, cy) {
-        if (this.path.length > 1) {
-            ctx.beginPath();
-            ctx.moveTo(cx + this.path[0].x, cy + this.path[0].y);
-            for (var i = 1; i < this.path.length; i++) {
-                ctx.lineTo(cx + this.path[i].x, cy + this.path[i].y);
-            }
-            ctx.strokeStyle = 'white';
-            ctx.stroke();
-        }
-
+      if (this.path.length > 1) {
         ctx.beginPath();
-        ctx.arc(cx + this.x, cy + this.y, 4, 0, Math.PI *2);
-        if (this.success) {
-            ctx.fillStyle = 'lime';
-        } else if (!this.active) {
-            ctx.fillStyle = 'red';
-        } else {
-            ctx.fillStyle = 'white';
+        ctx.moveTo(cx + this.path[0].x, cy + this.path[0].y);;
+        for (var i = 1; i < this.path.length; i++) {
+            ctx.lineTo(cx + this.path[i].x, cy + this.path[i].y);
         }
+        ctx.strokeStyle = 'white';
+        ctx.stroke();
+      }  
+
+      if (this.thrusting && this.active) {
+        ctx.beginPath();
+        ctx.arc(cx + this.x, cy + this.y, 8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 150, 0, 0.4)';
         ctx.fill();
-        ctx.closePath();
+      }
+
+      ctx.beginPath();
+      ctx.arc(cx + this.x, cy + this.y, 4, 0, Math.PI *2);
+      if (this.success) {
+        ctx.fillStyle = 'lime';
+      } else if (!this.active) {
+        ctx.fillStyle = 'red';
+      } else {
+        ctx.fillStyle = 'white';
+      }
+      ctx.fill();
+      ctx.closePath();
     }
 }
