@@ -12,23 +12,32 @@ window.addEventListener('resize', () => {
     cvs.width = window.innerWidth; cvs.height = window.innerHeight;
 });
 
-const earth  = new Planet(10,200,0.5,'blue',0,100);
+const earth = new Planet(10,200,0.5,'blue',0,100);
+earth.name = "Earth";
 const mars = new Planet(8,300,0.3,'red',1,50);
+mars.name = "Mars";
 const jupiter = new Planet(20,500,0.1,'orange',3,400);
-const moon = new Planet(4, 30, 2.5, '#ccc', 0, 10, earth);
+jupiter.name = "Jupiter";
+const moon = new Planet(4, 30, 2.5,  '#ccc', 0, 10, earth);
+moon.name = "Moon";
 
 const sat1 = new Planet(2, 20, 3.0, '#aaa', 0, 1, earth);
-const sat2 = new Planet(2, 24, 2.2, '#aaa',2.1, 1, earth);
-const sat3 = new Planet(2, 28, 1.8, '#aaa', 4.2, 1, earth);
+sat1.name = "Satellite-1";
+const sat2 = new Planet(2, 24, 2.2, '#aaa', 2.1, 1, earth);
+sat2.name = "Satellite-2";
+const sat3 = new Planet(2, 28, 1.8, '#aaa', 4.2, 1, earth );
+sat3.name = "Satellites-3";
 
 const planets = [earth, mars, jupiter];
 const moons = [moon];
 const satellites = [sat1, sat2, sat3];
-const sun = {x:0, y:0, m:1000, r:30, c:'yellow'};
+const sun = {x:0, y:0, m:100, r:30, c:'yellow', name:'Sun'};
+
+var targetBody = "Mars";
 
 var debrisList = [];
 for (var i = 0; i < 120; i++) {
-    var angle = Math.random() * Math.PI * 2;
+    var angle = Math.random() * 80;
     var dist = 370 + Math.random() * 80;
     var orbitalSpeed = Math.sqrt(1000 * sun.m / dist);
     var d = new Debris(
@@ -45,7 +54,7 @@ let sc = null;
 launchBtn.onclick = () => {
     let a = angInput.value * Math.PI/180;
     let s = spdInput.value;
-    sc = new Spacecraft(earth.x + Math.cos(a)*15, earth.y + Math.sin(a)*15, Math.cos(a)*s, Math.sin(a)*s);
+    sc = new Spacecraft(earth.x + Math.cos(a)*15, earth.y + Math.sin(a)*15), Math.cos(a)*s, Math.sin(a)*s;
     msg.innerText = "";
     if(msg) msg.style.color = "";
 };
@@ -65,7 +74,7 @@ function loop(t) {
     for(let s of satellites) {
         s.update(dt);
     }
-    for(var j = 0; j < debrisList.length; j++)  {
+    for(var j = 0; j < debrisList.length; j++) {
         debrisList[j].update(dt, sun.m);
     }
 
@@ -74,12 +83,12 @@ function loop(t) {
         for(let p of planets) bodies.push(p);
         for(let m of moons) bodies.push(m);
         for(let s of satellites) bodies.push(s);
-        sc.update(dt, bodies, msg);
-        stats.innerHTML = `Time: ${sc.tm.toFixed(1)}s<br>Dist: ${sc.dist.toFixed(0)}<br>Vel: ${(Math.sqrt(sc.vx*sc.vx+sc.vy*sc.vy)).toFixed(1)}`;
+        sc.update(dt, bodies, debrisList, targetBody, msg);
+        stats.innerHTML = 'Time: ${sc.tm.toFixed(1)}s<br>Dist: ${sc.dist.toFixed(0)}<br>Vel: ${(Math.sqrt(sc.vx*sc.vx+sc.vy*sc.vy)).toFixed(1)}`;'
     }
-
+   
     ctx.beginPath(); ctx.arc(cx, cy, 30, 0, 7); ctx.fillStyle='yellow'; ctx.fill();
-    
+
     for(let p of planets) {
         p.draw(ctx, cx, cy);
     }
@@ -90,7 +99,7 @@ function loop(t) {
         s.draw(ctx, cx, cy);
     }
     for(var j = 0; j < debrisList.length; j++) {
-        debrisList[j].draw(ctx, cx, cy);
+        debrisList[j].draw(ctx, cy, cy);
     }
 
     if(sc) sc.draw(ctx, cx, cy);
