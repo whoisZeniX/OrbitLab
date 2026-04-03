@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>OrbitLab</title>
 <link rel="stylesheet" href="style.css">    
 </head>    
-<body>
-<div id="ui">
-    <h2>OrbitLab Setup</h2>
-    <label>Angle: <input type="range" id="ang" min="0" max="360" value="0"></label><br><br>
-    <label>Speed: <input type="range" id="spd" min="0" max="200" value="50"></label><br><br>
-    <button id="btn">Launch</button>
-    <div id="stats"></div>
-</div>    
-<div id="msg"></div>
-<canvas id="c"></canvas>
+</html>
+<div id="sidebar">
+    <h2>Orbitlab</h2>
+    <div class="section">
+        <h3>Mission</h3>
+        <label>Target:
+            <select id="mission">
+                <option value="Mars">Mars Landing</option>
+                <option value="Jupiter">Jupiter Flyby</option>
+                <option value="Moon">Lunar Approach</option>
+            </select>
+        </label>
+    </div>
+    <div class="section">
+        <h3>Launch Config</h3>
+        <label>Angle: <span id="angVal">0</span> deg
+            <input type="range" id="ang" min="0" max="360" value="0">
+         </label>
+         <label>Speed: <span id="spdval">50</span>
+            <input type="range" id="spd" min="0" max="200" value="50">
+        </label>
+        <button id="btn">Launch</button>
+    </div>
+    <div class="section">
+        <h3>Flight Data</h3>
+        <div id="stats">Awaiting launch...</div>
+    </div>
+    <div id="msg"></div>
+    <div class="section">
+        <h3>Controls</h3>
+        <p class="hint">WASD or Arrow Keys to thrust during flight, Fuel is limited.</p>
+    </div>
+</div>
+<div id="canvas-wrap">
+    <canvas id="c"></canvas>
+</div>
 <script src="simulation/planets.js"></script>
 <script src="simulation/spacecraft.js"></script>
-<script src="main.js"></script>  
+<script src="main.js"></script>
 </body>
 </html>

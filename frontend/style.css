@@ -1,34 +1,109 @@
 body, html {
-    margin:0; 
+    margin: 0;
+    padding: 0;
+    height: 100%;
     overflow: hidden;
     background: #000;
-    color: #fff;
-    font-family: sans-serif;
+    color: #ddd;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+}
+
+#sidebar {
+    width: 260px;
+    min-width: 260px;
+    background: #1a1a1a;
+    border-right: 1px solid #333;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#sidebar h2 {
+    margin: 0 0 15px 0;
+    font-size: 22px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.section {
+    background: #222;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #333;
+}
+
+.section h3 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #999;
+    border-bottom: 1px dashed #444;
+    padding-bottom: 5px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-top: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 4px;
+    margin-top: 4px;
+    background: #111;
+    color: #ddd;
+    border: 1px solid #555;
+}
+
+button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    background: #3a7d3a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+} 
+
+button:hover {
+    background: #4a9d4a;
+}
+
+#stats {
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+#msg {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+.hint {
+    font-size: 11px;
+    color: #777;
+    margin: 0;
+    line-height: 1.4;
+}
+
+#canvas-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
 }
 
 canvas {
     display: block;
-}
-
-#ui {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    background: rgba(0,0,0,0.8);
-    padding: 20px;
-    border-radius: 8px;
-}
-
-#msg {
-    position: absolute;;
-    top: 50%;
-    width: 100%;
-    text-align: center;
-    font-size: 2em;
-    pointer-events: none;
-}
-
-#stats {
-    margin-top: 15px;
-    font-family: monospace;
 }
