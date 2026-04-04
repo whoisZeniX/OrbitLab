@@ -175,4 +175,59 @@ function drawPrediction(cx, cy) {
     }
 }
 
+function getTargetOBj(name) {
+    if (name === "Mars") return mars;
+    if (name === "Jupiter") return jupiter;
+    if (name === "Moon") return moon;
+    return mars;
+}
+
+function updateTelemetry(targetName) {
+    if (!sc) {
+        var target = getTargetObj(missionSelect.value);
+        var earthToTarget = Math.sqrt(
+          (earth.x - target.x) * (earth.x - target.x) +
+          (earth.y - target.y) (earth.y - target.y)
+        );
+        stats.innerHTML =
+          "Status: Pre-Launch<br>" + 
+          "Mission: " + missionSelect.value + "<br>" +
+          "Angle: " + angInput.value + " deg<br>" +
+          "Speed: " + spdInput.value + "<br>" +
+          "Earth-" + missionSelect.value + ": " + earthToTarget.toFixed(0);
+        return;  
+    }
+
+    var vel = Math.sqrt(sc.vx * sc.vx + sc.vy * sc.vy);
+    var earthDx = sc.x - earth.x;
+    var earthDy = sc.y - earth.y;
+    var distFromEarth = Math.sqrt(earthDx * earthDx + earthDy * earthDy );
+
+    var target = getTargetObj(targetName);
+    var targDx = sc.x - target.x;
+    var targDy = sc.y - target.y;
+    var distToTarget = Math.sqrt(targDx * targDx + targDy * targDy);
+
+    var sunDx = sc.x - sun.x;
+    var sunDy = sc.y - sun.y;
+    var distFromSun = Math.sqrt(sunDx * sunDx + sunDy * sunDy);
+
+    var missionStatus = "In Flight";
+    if (sc.success) {
+        missionStatus = "SUCCESS";
+    } else if (!sc.active) {
+        missionStatus = "FAILED - " + sc.hitTarget;
+    }
+
+    stats.innerHTML = 
+      "Time: " + sc.tm.toFixed(1) + "s<br>" +
+      "Velocity: " + vel.toFixed(1) + "<br>" +
+      "Fuel: " + Math.max(0, sc.fuel).toFixed(0) + "%<br>" +
+      "Dist Traveled: " + sc.dist.toFixed(0) + "<br>" +
+      "From Earth: " + distFromEarth.toFixed(0) + "<br>" +
+      "From Sun: " + distFromSun.toFixed(0) + "<br>" +
+      "To " + target + "; " + distToTarget.toFixed(0) + "<br>" +
+      "Status: " + missionStatus;
+}
+
 requestAnimationFrame(loop);
