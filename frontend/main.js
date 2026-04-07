@@ -10,9 +10,8 @@ const launchBtn = document.getElementById('btn');
 const missionSelect = document.getElementById('mission');
 
 function resizeCanvas() {
-  var wrap = document.getElementById('canvas-wrap');
-  cvs.width = wrap.clientWidth;
-  cvs.height = wrap.clientHeight;
+  cvs.width = window.innerWidth;
+  cvs.height = window.innerHeight;
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
@@ -123,6 +122,97 @@ function worldToScreen(wx, wy, cx, cy) {
   };
 }
 
+function screenToWorld(sx, sy, cx, cy) {
+  return {
+    wx: (sx - cx - camX) / camZoom,
+    wy: (sy - cy - camY) / camZoom
+  };
+}
+
+var gridSpacing = 40;
+var gravityWellStrength = 8000;
+
+function drawGravityMesh(cx, cy) {
+  var massiveBodies = [
+    {x: sun.x, y: sun.y, m: sun.m},
+    {x: earth.x, y: earth.y, m: earth.m},
+    {x: mars.x, y: mars.y, m: mars.m},
+    {x: jupiter.x, y: jupiter.y, m: jupiter.m}
+  ];
+
+  var spacing = gridSpacing;
+  var worldLeft = (0 - cx - camX) / camZoom;
+  var worldRight = (cvs.width - cx - camX) / camZoom;
+  var worldTop = (0 - cy - camY) / camZoom;
+  var worldBottom = (cvs.height - cy - camY) / camZoom;
+
+  var startX = Math.floor(worldLeft / spacing) * spacing;
+  var endX = Math.ceil(worldRight / spacing) * spacing;
+  var startY = Math.floor(worldTop / spacing) * spacing;
+  var endY = Math.ceil(worldBottom / spacing) * spacing;
+
+  ctx.strokeStyle = 'rgba(40, 80, 120, 0.25)';
+  ctx.lineWidth = 0.5;
+
+  for (var gy = startY; gy <= endY; gy += spacing) {
+    ctx.beginPath();
+    var firstPoint = true;
+    for (var gx = startX; gx <= endX; gx += spacing * 0.5) {
+      var offsetX = 0;
+      var offsetY = 0;
+      for (var b = 0; b < massiveBodies.length; b++) {
+        var body = massiveBodies[b];
+        var dx = gx - body.x;
+        var dy = gy - body.y;
+        var distSq = dx * dx + dy * dy;
+        var dist = Math.sqrt(distSq);
+        if (dist < 5) dist = 5;
+        var pull = (gravityWellStrength * body.m) / (distSq + 500);
+        offsetX -= (dx / dist) * pull * 0.0008;
+        offsetY += pull * 0.015;
+      }
+      var screenPt = worldToScreen(gx + offsetX, gy + offsetY, cx, cy);
+      if (firstPoint) {
+        ctx.moveTo(screenPt.sx, screenPt.sy);
+        firstPoint = false;
+      } else {
+        ctx.lineTo(screenPt.sx, screenPt.sy);
+      }
+    }
+    ctx.stroke();
+  }
+
+  for (var gx = startX; gx <= endX; gx += spacing) {
+    ctx.beginPath();
+    var firstPoint = true;
+    for (var gy = startY; gy <= endY; gy += spacing * 0.5) {
+      var offsetX = 0;
+      var offsetY = 0;
+      for (var b = 0; b < massiveBodies.length; b++) {
+        var body = massiveBodies[b];
+        var dx = gx - body.x;
+        var dy = gy - body.y;
+        var distSq = dx * dx + dy * dy;
+        var dist = Math.sqrt(distSq);
+        if (dist < 5) dist = 5;
+        var pull = (gravityWellStrength * body.m) / (distSq + 500);
+        offsetX -= (dx / dist) * pull * 0.0008;
+        offsetY += pull * 0.015;
+      }
+      var screenPt = worldToScreen(gx + offsetX, gy + offsetY, cx, cy);
+      if (firstPoint) {
+        ctx.moveTo(screenPt.sx, screenPt.sy);
+        firstPoint = false;
+      } else {
+        ctx.lineTo(screenPt.sx, screenPt.sy);
+      }
+    }
+    ctx.stroke();
+  }
+
+  ctx.lineWidth = 1;
+}
+
 let last = performance.now();
 function loop(t) {
   let dt = (t - last)/1000; last = t; if(dt>0.1) dt=0.1;
@@ -158,6 +248,8 @@ function loop(t) {
   }
 
   updateTelemetry(targetBody);
+
+  drawGravityMesh(cx, cy);
 
   var sunPos = worldToScreen(sun.x, sun.y, cx, cy);
   ctx.beginPath();
