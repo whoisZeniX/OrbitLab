@@ -1,44 +1,40 @@
-# DisruptX
+# OrbitLab
 <div align="center">
 
-**DisruptX is a comprehensive web-based cognitive testing platform designed for ADHD research and general cognitive training. It offers a suite of interactive tasks to measure attention, memory, and executive function.**
+**OrbitLab is a modular, web-based orbital mechanics simulator built entirely with vanilla JavaScript. It allows users to launch spacecraft, observe gravitational interactions, and visualize accurate orbital trajectories in an interactive canvas environment.**
 
 </div>
 
 ## Features
 
-*   **Core Cognitive Tasks:**
-    *   **Focus Task:** Measures selective attention and inhibition of distractions.
-    *   **Working Memory:** Classic digit span test to evaluate short-term retention capacity.
-    *   **Stroop Task:** Standard color-word interference test for cognitive control.
-*   **Attention & Vigilance:**
-    *   **Sustained Attention:** Long-format task to measure ability to maintain focus over time.
-    *   **Lapse Detector:** Monitors for brief lapses in vigilance using infrequent signals.
-*   **Advanced Assessment:**
-    *   **Dual Task:** Tests multitasking by managing simultaneous visual and auditory stimuli.
-    *   **Task Switching:** Evaluates cognitive flexibility by adapting to changing sorting rules.
-    *   **Temporal Stability:** Analyzes performance consistency and fatigue over time blocks.
-*   **Specialized Modules:**
-    *   **Auditory Distractions:** Specifically tests tolerance to specific auditory noise types.
-    *   **Time Perception:** Estimates internal time-keeping accuracy with interval tests.
-*   **Analytics:**
-    *   **Results Viewer:** Detailed dashboard to review and analyze performance history across all tasks.
-    *   **Firebase Integration:** Secure data storage and user authentication.
+*   **Planetary System Engine:**
+    *   **Accurate Physics:** Simulates gravitational pulls from a central star (Sun) and various planets (Earth, Mars, Jupiter).
+    *   **Dynamic Orbits:** Real-time updates of planetary positions and orbital velocities for moons and satellites.
+*   **Spacecraft Launch System:**
+    *   **Customizable Launches:** Configure launch angle and speed to reach chosen targets.
+    *   **Flight Controls:** Use WASD or Arrow Keys for active thrusting during flight (fuel is limited).
+    *   **Trajectory Forecasting:** Real-time parabolic path prediction showing where your launch configuration will take you.
+*   **Advanced Rendering:**
+    *   **Canvas Viewport:** Fully interactable canvas with zoom (scroll) and pan (drag) capabilities.
+    *   **Gravity Mesh:** Interactive visual representation of the gravity wells surrounding massive bodies.
+*   **Telemetry & UI:**
+    *   **Live Data:** Sidebar dashboard tracking velocity, fuel, mission status, and distance metrics in real-time.
+    *   **Mission Control:** Pre-configured mission targets like a Mars Landing, Jupiter Flyby, or Lunar Approach.
 
 ## Technologies Used
 
-*   **Backend:** Python, Flask
-*   **Database & Auth:** Firebase (Firestore, Authentication)
-*   **Frontend:** HTML5, CSS3, Vanilla JavaScript
-*   **Configuration:** Python-dotenv
+*   **Frontend:** HTML5, Vector Canvas (2D Context)
+*   **Styling:** CSS3
+*   **Logic & Physics:** Vanilla JavaScript (ES6)
+*   **Deployment:** Render (Static Site)
 
 ## Demo Video
 
-A showcase of the cognitive tasks and platform features.
+A showcase of the simulator and its interactive features.
 
-🎥 [DEMO VIDEO](https://drive.google.com/file/d/1dimEzTp5jwAWgBtEDYyuHUjH01K9vvgH/view?usp=sharing)
+🎥 [DEMO VIDEO](https://drive.google.com/file/d/1ekYKhowJD9EJqfCyL4TN0J20TsAxqMIZ/view?usp=sharing)
 
-### Live Demo [Link](https://disruptx.onrender.com)
+### Live Demo [Link](https://orbitlab.onrender.com/)
 
 ## Local Setup and Installation
 
@@ -46,84 +42,52 @@ Follow these steps to get the application running on your local machine.
 
 ### 1. Prerequisites
 
-*   Python 3.7+
-*   `pip` (Python package installer)
-*   **Firebase Project**: You need a Firebase project with Firestore and Authentication enabled.
+*   A modern Web Browser (Chrome, Firefox, Safari, Edge)
+*   Git (optional)
 
 ### 2. Clone the Repository
 
 Clone this repository to your local machine using Git:
 
 ```bash
-git clone https://github.com/baqar08/DisruptX.git
-cd DisruptX
+git clone https://github.com/whoisZenix/OrbitLab.git
+cd OrbitLab
 ```
 
-### 3. Create a Virtual Environment
+### 3. Run the Application
 
-It is highly recommended to create a virtual environment to manage project dependencies.
+Since this project is pure HTML, CSS, and JavaScript, there are no dependencies to install or servers to configure.
 
+You can simply open the `index.html` file in your preferred web browser:
+
+**macOS:**
 ```bash
-# For Windows
-python -m venv venv
-venv\Scripts\activate
-
-# For macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
+open frontend/index.html
 ```
 
-### 4. Install Dependencies
+**Windows:**
+```cmd
+start frontend\index.html
+```
 
-Install all the required Python libraries using `pip`.
-
+**Linux:**
 ```bash
-pip install -r requirements.txt
+xdg-open frontend/index.html
 ```
 
-### 5. Configuration
-
-This project requires Firebase credentials to function.
-
-1.  **Service Account:** Place your Firebase Admin SDK JSON file in the root directory and name it `serviceAccountKey.json`.
-2.  **Environment Variables:** Create a `.env` file in the root directory with your Firebase configuration:
-    ```env
-    SECRET_KEY=your_secret_key
-    GOOGLE_APPLICATION_CREDENTIALS=serviceAccountKey.json
-    FIREBASE_API_KEY=your_api_key
-    FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-    FIREBASE_PROJECT_ID=your_project_id
-    FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-    FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-    FIREBASE_APP_ID=your_app_id
-    ```
-
-### 6. Run the Application
-
-Once the setup is complete, you can start the Flask development server:
-
-```bash
-python app.py
-```
-
-Now, open your web browser and navigate to the following address:
-
-```
-http://localhost:5001/
-```
-
-You should see the **DisruptX** dashboard running!
+*(Alternatively, you can just drag and drop the `frontend/index.html` file into an open browser window, or use an extension like VSCode Live Server).*
 
 ## How to Use
 
-1.  **Login/Guest Access:** Create an account or use Guest Login to access the dashboard.
-2.  **Select a Task:** Choose from the categorized list of cognitive tasks (Core, Attention, Analysis).
-3.  **Perform Task:** Follow the on-screen instructions for each specific cognitive test.
-4.  **View Results:** Check the Results section to see your performance metrics and history.
-5.  **Settings:** Use the toggle to switch between light and dark themes (if supported) or logout.
+1.  **Select Mission:** In the sidebar, choose your target destination (Mars, Jupiter, Moon).
+2.  **Configure Launch:** Adjust the launch angle and initial speed using the sliders. Watch the flight path prediction.
+3.  **Launch:** Click the "Launch" button to deploy your spacecraft.
+4.  **Control Flight:** Use `W`, `A`, `S`, `D` or the `Arrow Keys` to fire the spacecraft thrusters and adjust your trajectory mid-flight. Keep an eye on your fuel!
+5.  **View Telemetry:** Monitor your live velocity, distance, and mission status directly in the Flight Data panel.
+6.  **Navigate Viewport:** Click and drag the mouse to pan around the solar system, and use the scroll wheel to zoom in and out.
 
 ## Author
 
 -   Name: Baqar Mustafa
 -   Email: baqarmustafa84@gmail.com
--   GitHub: baqar08
+-   GitHub: whoisZenix
