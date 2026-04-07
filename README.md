@@ -88,6 +88,6 @@ xdg-open frontend/index.html
 
 ## Author
 
--   Name: Baqar Mustafa
--   Email: baqarmustafa84@gmail.com
+-   Name: Zenix
+-   Email: zkavish8@gmail.com
 -   GitHub: whoisZenix
