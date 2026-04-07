@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: OrbitLab
+    buildCommand: ""
+    staticPublishPath: ./frontend
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=3600
